@@ -36,7 +36,7 @@ function Form(props) {
         value={person.job}
         onChange={handleChange}
       />
-      <input type="button" value="Submit" onClick={submitForm} />   
+      <input type="button" class = "btn btn-primary" value="Submit" onClick={submitForm} />   
     </form>
   );
 }
