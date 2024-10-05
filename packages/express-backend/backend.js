@@ -4,7 +4,7 @@ import express from "express";
 const app = express();
 const port = 8000;
 
-const users = {
+let users = {
     users_list: [
     {
     id: "xyz789",
@@ -40,16 +40,17 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-const findUserByName = (name) => {
+const findUserByName = (name, job) => {
     return users["users_list"].filter(
-        (user) => user["name"] === name
+        (user) => (user["name"] === name && user["job"] === job)
     );
 };
 
 app.get("/users", (req, res) => {
     const name = req.query.name;
-    if (name != undefined) {
-        let result = findUserByName(name);
+    const job = req.query.job;
+    if (name != undefined && job != undefined) {
+        let result = findUserByName(name, job);
         result = { users_list: result };
         res.send(result);
     } else {
@@ -79,6 +80,22 @@ app.post("/users", (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
     res.send();
+});
+
+const deleteUser = (user) => {
+    return users["users_list"].filter(obj => obj.id !== user);
+};
+  
+app.delete("/users/:id", (req, res) => {
+
+    const id = req.params["id"]; //or req.params.id
+    let result = findUserById(id);
+    if (result === undefined) {
+      res.status(404).send("Resource not found.");
+    } else {
+        users["users_list"] = deleteUser(id);
+        res.send();
+    }
 });
 
 app.listen(port, () => {
