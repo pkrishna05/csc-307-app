@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 
 function Form(props) {
   const [person, setPerson] = useState({
@@ -36,7 +37,7 @@ function Form(props) {
         value={person.job}
         onChange={handleChange}
       />
-      <input type="button" class = "btn btn-primary" value="Submit" onClick={submitForm} />   
+      <input type="button" className = "btn btn-primary" value="Submit" onClick={submitForm} />   
     </form>
   );
 }
