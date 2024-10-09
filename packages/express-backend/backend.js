@@ -75,15 +75,15 @@ app.get("/users/:id", (req, res) => {
 
 const addUser = (user) => {
     const id = Math.floor(Math.random() * 10000)
-    user['id'] = id;
+    user['id'] = `${id}`;
     users["users_list"].push(user);
     return user;
 };
   
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send(201);
+    const user = addUser(userToAdd);
+    res.send(201, user);
 });
 
 const deleteUser = (user) => {
@@ -93,12 +93,12 @@ const deleteUser = (user) => {
 app.delete("/users/:id", (req, res) => {
 
     const id = req.params["id"]; //or req.params.id
-    let result = findUserById(id);
+    let result = findUserById(id.toString());
     if (result === undefined) {
       res.status(404).send("Resource not found.");
     } else {
         users["users_list"] = deleteUser(id);
-        res.send();
+        res.send(204);
     }
 });
 
