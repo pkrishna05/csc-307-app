@@ -16,7 +16,7 @@ function MyApp() {
       .then((res) => {
         if (res.status === 204) {
           const updated = characters.filter((character) => {
-            return character.id !== id;
+            return character._id !== id;
           });
           console.log(updated);
           setCharacters(updated);
@@ -35,12 +35,14 @@ function MyApp() {
   function updateList(person) {
     postUser(person)
       .then((res) => {
-        res.json().then((data) => {
-          console.log(data);
-          if (res.status === 201) {
-            setCharacters([...characters, data]);
-          }
-        });
+          res.json().then((data) => {
+            console.log(data);
+            if (res.status === 201) {
+              setCharacters([...characters, data]);
+            } else {
+              alert(data.error)
+            }
+          });
       })
       .catch((error) => {
         console.log(error);
